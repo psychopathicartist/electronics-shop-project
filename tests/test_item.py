@@ -42,3 +42,13 @@ def test_name_set(test_item):
     assert test_item.name == 'Смартфон'
     test_item.name = 'Холодильник'
     assert test_item.name == 'Холодильни'
+
+
+def test_repr(test_item):
+    """При вызове repr выводится информация для разработчиков"""
+    assert repr(test_item) == "Item('Холодильник', 40000, 10)"
+
+
+def test_str(test_item):
+    """При вызове str пвыводится информация для пользователей в виде названия товара"""
+    assert str(test_item) == "Холодильник"
