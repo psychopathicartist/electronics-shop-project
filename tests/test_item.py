@@ -7,6 +7,11 @@ def test_item():
     return Item("Холодильник", 40000, 10)
 
 
+@pytest.fixture
+def test_item_2():
+    return Item("Микроволновка", 5000, 40)
+
+
 def test_calculate_total_price(test_item):
     """При вызове calculate_total_price возвращает значение 400000
     при цене 40000 и количестве 10"""
@@ -50,5 +55,13 @@ def test_repr(test_item):
 
 
 def test_str(test_item):
-    """При вызове str пвыводится информация для пользователей в виде названия товара"""
+    """При вызове str выводится информация для пользователей в виде названия товара"""
     assert str(test_item) == "Холодильник"
+
+
+def test_add(test_item, test_item_2):
+    """При сложении возвращается общее количество товаров, при этом
+    сложение происходит только объектов Item и дочерних от них"""
+    assert test_item + test_item_2 == 50
+    with pytest.raises(ValueError):
+        test_item + 2
