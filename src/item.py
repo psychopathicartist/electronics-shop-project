@@ -33,6 +33,14 @@ class Item:
         """
         return f'{self.__name}'
 
+    def __add__(self, other):
+        """
+        Возвращает сложение экземпляров класса Phone и Item по количеству товара в магазин
+        """
+        if not isinstance(other, Item):
+            raise ValueError('Складывать можно только объекты Item и дочерние от них.')
+        return self.quantity + other.quantity
+
     def calculate_total_price(self) -> float:
         """
         Рассчитывает общую стоимость конкретного товара в магазине.
