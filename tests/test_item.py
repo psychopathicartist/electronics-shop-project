@@ -1,5 +1,10 @@
 import pytest
-from src.item import Item
+import os
+from src.item import Item, InstantiateCSVError
+
+
+items_file = 'C:/Users/Мария/PycharmProjects/electronics-shop-project/src/items.csv'
+test_items_file = 'C:/Users/Мария/PycharmProjects/electronics-shop-project/tests/items_test.csv'
 
 
 @pytest.fixture
@@ -34,10 +39,30 @@ def test_string_to_number():
 
 
 def test_instantiate_from_csv():
-    """При вызове instantiate_from_csv происходить инициализация экземпляров класса
+    """При вызове instantiate_from_csv происходит инициализация экземпляров класса
     из файла items.csv, тогда количество экземпляров класса равно 5"""
-    Item.instantiate_from_csv('src/items.csv')
+    Item.instantiate_from_csv(items_file)
     assert len(Item.all) == 5
+
+
+def test_instantiate_csv_error():
+    """При вызове instantiate_from_csv от поврежденного файла
+    возникает ошибка InstantiateCSVError"""
+    with pytest.raises(InstantiateCSVError):
+        Item.instantiate_from_csv(test_items_file)
+
+
+def test_instantiate_csv_error_str():
+    """При вызове str от экземпляра класса исключения InstantiateCSVError
+     выводится текст ошибки 'Файл item.csv поврежден.'"""
+    assert str(InstantiateCSVError()) == 'Файл item.csv поврежден.'
+
+
+def test_file_not_find():
+    """При вызове instantiate_from_csv от несуществующего файла
+    возникает ошибка FileNotFoundError"""
+    with pytest.raises(FileNotFoundError):
+        Item.instantiate_from_csv('file')
 
 
 def test_name_set(test_item):
